@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Connexion - Fidélité El Mazraa</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  <style>
+    body {
+      background: #f4f4f4;
+      font-family: 'Segoe UI', sans-serif;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .login-box {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      text-align: center;
+      width: 300px;
+    }
+
+    input {
+      width: 90%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 1em;
+    }
+
+    button {
+      padding: 12px 24px;
+      background: #4CAF50;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 1em;
+      font-weight: 600;
+      transition: background 0.3s;
+      margin-top: 10px;
+    }
+
+    button:hover {
+      background: #3e8e41;
+    }
+
+    .success {
+      margin-top: 20px;
+      font-weight: bold;
+      color: #4CAF50;
+    }
+
+    h2 {
+      color: #2c3e50;
+      margin-bottom: 10px;
+    }
+
+    p {
+      color: #666;
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="login-box">
+    <h2>Bienvenue chez El Mazraa 🌱</h2>
+    <p>Connectez-vous pour gagner des points fidélité</p>
+    <input type="text" id="username" placeholder="Nom d'utilisateur" />
+    <input type="password" id="password" placeholder="Mot de passe" />
+    <button onclick="login()">Se connecter</button>
+    <div class="success" id="successMessage"></div>
+  </div>
+
+  <script>
+    function login() {
+      const user = document.getElementById("username").value;
+      const pass = document.getElementById("password").value;
+
+      if (user === "user" && pass === "pass") {
+        document.getElementById("successMessage").innerText = "🎉 Succès ! Vous avez gagné 25 points !";
+        
+        // Stocker les données utilisateur
+        localStorage.setItem("username", user);
+        localStorage.setItem("pointsEarned", "25");
+        
+        // Confettis de célébration
+        confetti({
+          particleCount: 200,
+          spread: 80,
+          origin: { y: 0.6 }
+        });
+
+        // Redirection après délai
+        setTimeout(() => {
+          window.location.href = "index.html"; 
+        }, 2500);
+
+      } else {
+        alert("Identifiants incorrects. Essayez : user / pass");
+      }
+    }
+  </script>
+</body>
+</html>
