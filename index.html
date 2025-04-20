@@ -56,6 +56,36 @@
       animation: fadeIn 0.6s ease-out;
     }
 
+    .points-progress-bar {
+      margin-bottom: 25px;
+      background: #fdfdfd;
+      padding: 15px;
+      border-radius: 12px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      border-left: 5px solid var(--primary);
+    }
+
+    .progress-text {
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: var(--dark-text);
+    }
+
+    .progress-bar-bg {
+      background: #e0e0e0;
+      height: 16px;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .progress-bar-fill {
+      background: linear-gradient(to right, var(--primary), var(--secondary));
+      height: 100%;
+      width: 0;
+      transition: width 1s ease-out;
+      border-radius: 10px;
+    }
+
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(-15px); }
       to { opacity: 1; transform: translateY(0); }
@@ -230,7 +260,14 @@
 <body>
   <div class="container">
     <div id="user-welcome" class="user-welcome"></div>
-    
+
+    <div id="points-progress" class="points-progress-bar">
+      <div class="progress-text">🎯 Fidélité : <span id="points-value">0</span> / 10 000 pts</div>
+      <div class="progress-bar-bg">
+        <div class="progress-bar-fill" id="progress-fill"></div>
+      </div>
+    </div>
+
     <div class="product-header">
       <div class="product-icon">🥙</div>
       <div>
@@ -238,19 +275,19 @@
         <div class="product-subtitle">Cordon bleu de dinde enrichi en fibres et légumes</div>
       </div>
     </div>
-    
+
     <img src="Standing Wide Box Mockup.png" alt="Fibratic - El Mazraa" />
-    
+
     <div class="quick-description">
       Produit pané à base d'escalope de dinde et légumes, enrichi en inuline (fibre prébiotique naturelle), avec une farce au houmous. Conditionné en emballage intelligent avec QR code interactif.
     </div>
-    
+
     <h2 class="section-title"><i class="fas fa-tags"></i> Catégorie</h2>
     <div class="badges">
       <div class="badge"><i class="fas fa-snowflake"></i> Produit surgelé</div>
       <div class="badge"><i class="fas fa-heart"></i> Aliment fonctionnel</div>
     </div>
-    
+
     <h2 class="section-title"><i class="fas fa-list"></i> Composition</h2>
     <div class="composition-grid">
       <div class="composition-card">
@@ -269,7 +306,7 @@
         </div>
       </div>
     </div>
-    
+
     <h2 class="section-title"><i class="fas fa-allergies"></i> Allergènes</h2>
     <div>
       <span class="tag allergen">Gluten</span>
@@ -279,45 +316,47 @@
     <div style="margin-top: 15px;">
       <span class="tag benefit"><i class="fas fa-check-circle"></i> Sans fromage → pas de lactose, ni protéines de lait</span>
     </div>
-    
+
     <h2 class="section-title"><i class="fas fa-temperature-low"></i> Conservation</h2>
     <div>
       <span class="tag storage"><i class="fas fa-info-circle"></i> À conserver à -18 °C</span>
     </div>
-    
+
     <div class="footer">
       Produit El Mazraa • Gamme de produits surgelés premium
     </div>
   </div>
 
   <script>
-    document.addEventListener('DOMContentLoaded', function() {
+    document.addEventListener('DOMContentLoaded', function () {
       const username = localStorage.getItem("username");
       const pointsEarned = localStorage.getItem("pointsEarned");
-      
+      const pointsTotal = parseInt(localStorage.getItem("pointsTotal")) || 2500;
+
       if (username) {
-        const welcomeElement = document.getElementById("user-welcome");
-        welcomeElement.textContent = `Bienvenue ${username} ! Prêt à découvrir nos délicieux produits ?`;
-        
-        // Show confetti for returning user
+        document.getElementById("user-welcome").textContent = `Bienvenue ${username} ! Prêt à découvrir nos délicieux produits ?`;
         confetti({
           particleCount: 100,
           spread: 70,
           origin: { y: 0.6 }
         });
       }
-      
+
       if (pointsEarned) {
         showPointsNotification(pointsEarned);
         localStorage.removeItem("pointsEarned");
       }
-      
+
+      const progressPercent = Math.min((pointsTotal / 10000) * 100, 100);
+      document.getElementById("points-value").textContent = pointsTotal.toLocaleString();
+      document.getElementById("progress-fill").style.width = `${progressPercent}%`;
+
       function showPointsNotification(points) {
         const notification = document.createElement('div');
         notification.className = 'points-notification';
         notification.innerHTML = `<i class="fas fa-gift"></i> <span>+${points} points fidélité gagnés !</span>`;
         document.body.appendChild(notification);
-        
+
         setTimeout(() => {
           notification.style.opacity = '0';
           setTimeout(() => notification.remove(), 500);
