@@ -4,7 +4,6 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Fibratic - El Mazraa</title>
-  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
   <style>
     :root {
@@ -259,7 +258,7 @@
 </head>
 <body>
   <div class="container">
-    <div id="user-welcome" class="user-welcome"></div>
+    <div class="user-welcome">Bienvenue cher Utilisateur ! Découvrez notre délicieux produit.</div>
 
     <div id="points-progress" class="points-progress-bar">
       <div class="progress-text">🎯 Fidélité : <span id="points-value">0</span> / 10 000 pts</div>
@@ -276,7 +275,7 @@
       </div>
     </div>
 
-    <img src="Standing Wide Box Mockup.png" alt="Fibratic - El Mazraa" />
+    <img src="box finale walaha.png" alt="Fibratic - El Mazraa" />
 
     <div class="quick-description">
       Produit pané à base d'escalope de dinde et légumes, enrichi en inuline (fibre prébiotique naturelle), avec une farce au houmous. Conditionné en emballage intelligent avec QR code interactif.
@@ -329,39 +328,10 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', function () {
-      const username = localStorage.getItem("username");
-      const pointsEarned = localStorage.getItem("pointsEarned");
-      const pointsTotal = parseInt(localStorage.getItem("pointsTotal")) || 2500;
-
-      if (username) {
-        document.getElementById("user-welcome").textContent = `Bienvenue ${username} ! Prêt à découvrir nos délicieux produits ?`;
-        confetti({
-          particleCount: 100,
-          spread: 70,
-          origin: { y: 0.6 }
-        });
-      }
-
-      if (pointsEarned) {
-        showPointsNotification(pointsEarned);
-        localStorage.removeItem("pointsEarned");
-      }
-
+      const pointsTotal = 2500; // Static value
       const progressPercent = Math.min((pointsTotal / 10000) * 100, 100);
       document.getElementById("points-value").textContent = pointsTotal.toLocaleString();
       document.getElementById("progress-fill").style.width = `${progressPercent}%`;
-
-      function showPointsNotification(points) {
-        const notification = document.createElement('div');
-        notification.className = 'points-notification';
-        notification.innerHTML = `<i class="fas fa-gift"></i> <span>+${points} points fidélité gagnés !</span>`;
-        document.body.appendChild(notification);
-
-        setTimeout(() => {
-          notification.style.opacity = '0';
-          setTimeout(() => notification.remove(), 500);
-        }, 3500);
-      }
     });
   </script>
 </body>
